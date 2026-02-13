@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Departament;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class DepartamentFactory extends Factory
 {
@@ -13,8 +12,19 @@ class DepartamentFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'name' => $this->faker->unique()->randomElement([
+                'Recursos Humanos',
+                'Financeiro',
+                'Tecnologia',
+                'Comercial',
+                'Operacoes',
+                'Juridico',
+            ]),
         ];
+    }
+
+    public function withName(string $name): self
+    {
+        return $this->state(['name' => $name]);
     }
 }

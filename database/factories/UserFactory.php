@@ -38,4 +38,9 @@ class UserFactory extends Factory
     {
         return $this->state(['permissions' => $permissions]);
     }
+
+    public function withDepartamentId(int $departamentId): self
+    {
+        return $this->state(['departament_id' => $departamentId]);
+    }
 }
