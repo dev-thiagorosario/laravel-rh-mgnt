@@ -150,3 +150,146 @@ body {
         font-size: 1.35rem;
     }
 }
+
+.create-user-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 14% 18%, #dbeaff 0%, transparent 45%),
+        radial-gradient(circle at 82% 74%, #dbffe9 0%, transparent 38%),
+        linear-gradient(140deg, #f6f9fc 0%, #ebf1f8 100%);
+}
+
+.create-user-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #d9e3ef;
+    box-shadow: 0 22px 42px rgba(36, 49, 66, 0.14);
+}
+
+.create-user-card__aside {
+    padding: 2rem 1.7rem;
+    color: #ffffff;
+    background: linear-gradient(155deg, #0a4a9c 0%, #1f6fd1 52%, #2f85eb 100%);
+}
+
+.create-user-card__logo {
+    width: 68px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.create-user-card__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.create-user-card__subtitle {
+    margin: 0.55rem 0 1rem;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.45;
+    font-size: 0.94rem;
+}
+
+.create-user-card__tips {
+    margin: 0;
+    padding-left: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.create-user-card__content {
+    padding: 2rem 1.7rem;
+}
+
+.create-user-form__heading {
+    margin: 0;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #1f2b3a;
+}
+
+.create-user-form__intro {
+    margin: 0.45rem 0 1.4rem;
+    color: #5d6a7b;
+    font-size: 0.95rem;
+}
+
+.create-user-alert {
+    border-radius: 0.65rem;
+    font-size: 0.92rem;
+}
+
+.create-user-label {
+    font-weight: 600;
+    color: #24344a;
+}
+
+.create-user-input,
+.create-user-select {
+    border-color: #c9d3e0;
+    border-radius: 0.65rem;
+    min-height: 46px;
+}
+
+.create-user-input:focus,
+.create-user-select:focus {
+    border-color: #1f6fd1;
+    box-shadow: 0 0 0 0.22rem rgba(31, 111, 209, 0.18);
+}
+
+.create-user-select--multiple {
+    min-height: 140px;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+}
+
+.create-user-help {
+    display: block;
+    margin-top: 0.45rem;
+    color: #617087;
+}
+
+.create-user-submit {
+    min-height: 44px;
+    border: none;
+    border-radius: 0.65rem;
+    color: #ffffff;
+    font-weight: 700;
+    background: linear-gradient(145deg, #0e4ea8 0%, #1f6fd1 100%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-user-submit:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(31, 111, 209, 0.24);
+}
+
+@media (max-width: 991.98px) {
+    .create-user-card__aside {
+        text-align: center;
+        padding: 1.65rem 1.5rem;
+    }
+
+    .create-user-card__tips {
+        display: inline-block;
+        text-align: left;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .create-user-card__content {
+        padding: 1.4rem 1.15rem;
+    }
+
+    .create-user-form__heading {
+        font-size: 1.3rem;
+    }
+
+    .create-user-submit {
+        width: 100%;
+    }
+}

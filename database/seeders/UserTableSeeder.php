@@ -31,13 +31,15 @@ class UserTableSeeder extends Seeder
         User::factory(10)
             ->withDepartamentId((int) $departamentId)
             ->withRole('manager')
+            ->withPassword('aaa123')
             ->withPermissions('write')
             ->create();
 
         User::factory(20)
             ->withDepartamentId((int) $departamentId)
             ->withRole('employee')
-            ->withPermissions('read')
+            ->withPassword('aaa123')
+            ->withPermissions('')
             ->create();
     }
 }
