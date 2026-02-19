@@ -13,17 +13,21 @@ class AdminViewController extends Controller
 {
     public function __construct(
         private readonly ShowAdminActionInterface $showAdminAction
-    ) {
-    }
+    ) {}
 
     public function __invoke(): View
     {
         try {
-            return view('admin', ['admin' => $this->showAdminAction->execute()]);
+            return view('admin',
+                ['admin' => $this->showAdminAction->execute()]
+            );
         } catch (AdminViewException $e) {
-            abort(500, $e->getMessage());
+            abort(
+                500,
+                $e->getMessage());
         } catch (Throwable) {
-            abort(500, 'An unexpected error occurred.');
+            abort(500,
+                'An unexpected error occurred.');
         }
     }
 }
