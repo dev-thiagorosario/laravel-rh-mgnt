@@ -15,28 +15,36 @@ class DepartamentEntity
     {
         return $this->id;
     }
-    public function setId(int $id): self
+
+    public function setId(?int $id): self
     {
         $this->id = $id;
         return $this;
     }
+
     public function getName(): ?string
     {
         return $this->name;
     }
-    public function setName(string $name): self
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
         return $this;
     }
-    public function fromModel(Departament $departament): self
+
+    public static function fromModel(Departament $departament): self
     {
         $entity = new self();
-        $entity->setId($departament->id ?? null);
-        $entity->setName($departament->name ?? '');
+        $entity->setId($departament->id);
+        $entity->setName($departament->name);
+
         return $entity;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -44,5 +52,4 @@ class DepartamentEntity
             'name' => $this->getName(),
         ];
     }
-
 }

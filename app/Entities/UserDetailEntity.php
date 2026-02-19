@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entities;
 
 use App\Models\UserDetail;
+use DateTimeInterface;
 
 class UserDetailEntity
 {
@@ -21,88 +22,110 @@ class UserDetailEntity
     {
         return $this->id;
     }
-    public function setId(int $id): self
+
+    public function setId(?int $id): self
     {
         $this->id = $id;
         return $this;
     }
+
     public function getAddress(): ?string
     {
         return $this->address;
     }
-    public function setAddress(string $address): self
+
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
         return $this;
     }
+
     public function getZipCode(): ?string
     {
         return $this->zip_code;
     }
-    public function setZipCode(string $zip_code): self
+
+    public function setZipCode(?string $zip_code): self
     {
         $this->zip_code = $zip_code;
         return $this;
     }
+
     public function getCity(): ?string
     {
         return $this->city;
     }
-    public function setCity(string $city): self
+
+    public function setCity(?string $city): self
     {
         $this->city = $city;
         return $this;
     }
+
     public function getPhone(): ?string
     {
         return $this->phone;
     }
-    public function setPhone(string $phone): self
+
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
         return $this;
     }
+
     public function getSalary(): ?string
     {
         return $this->salary;
     }
-    public function setSalary(string $salary): self
+
+    public function setSalary(?string $salary): self
     {
         $this->salary = $salary;
         return $this;
     }
+
     public function getAdmissionDate(): ?string
     {
         return $this->admission_date;
     }
-    public function setAdmissionDate(string $admission_date): self
+
+    public function setAdmissionDate(?string $admission_date): self
     {
         $this->admission_date = $admission_date;
         return $this;
     }
+
     public function getUserId(): ?int
     {
         return $this->user_id;
     }
-    public function setUserId(int $user_id): self
+
+    public function setUserId(?int $user_id): self
     {
         $this->user_id = $user_id;
         return $this;
     }
-    public function fromModel(UserDetail $userDetail): self
+
+    public static function fromModel(UserDetail $userDetail): self
     {
+        $admissionDate = $userDetail->admission_date;
+
         $entity = new self();
-        $entity->setId($userDetail->id ?? null);
-        $entity->setAddress($userDetail->address ?? null);
-        $entity->setZipCode($userDetail->zip_code ?? null);
-        $entity->setCity($userDetail->city ?? null);
-        $entity->setPhone($userDetail->phone ?? null);
-        $entity->setSalary($userDetail->salary ?? null);
-        $entity->setAdmissionDate($userDetail->admission_date ?? null);
-        $entity->setUserId($userDetail->user_id ?? null);
+        $entity->setId($userDetail->id);
+        $entity->setAddress($userDetail->address);
+        $entity->setZipCode($userDetail->zip_code);
+        $entity->setCity($userDetail->city);
+        $entity->setPhone($userDetail->phone);
+        $entity->setSalary((string) $userDetail->salary);
+        $entity->setAdmissionDate($admissionDate instanceof DateTimeInterface ? $admissionDate->format('Y-m-d') : (is_string($admissionDate) ? $admissionDate : null));
+        $entity->setUserId($userDetail->user_id);
+
         return $entity;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -115,6 +138,5 @@ class UserDetailEntity
             'salary' => $this->getSalary(),
             'admission_date' => $this->getAdmissionDate(),
         ];
-
     }
 }
