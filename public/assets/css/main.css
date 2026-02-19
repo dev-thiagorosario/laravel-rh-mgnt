@@ -1,5 +1,7 @@
 body {
+    margin: 0;
     background-color: #eee;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
 }
 
 .bg-color-1 {
@@ -21,4 +23,130 @@ body {
 .sidebar a:hover {
     background-color: #333;
     color: #fff;
+}
+
+.login-page {
+    min-height: 100vh;
+    padding: 1.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    background:
+        radial-gradient(circle at 10% 20%, #d3e8ff 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, #ffe8d5 0%, transparent 36%),
+        linear-gradient(135deg, #f5f8fc 0%, #eef2f7 100%);
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #dde4ee;
+    box-shadow: 0 20px 40px rgba(36, 49, 66, 0.14);
+}
+
+.login-card__brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 2rem 1.75rem;
+    color: #ffffff;
+    background: linear-gradient(145deg, #114b9d 0%, #1f6fd1 100%);
+}
+
+.login-card__logo {
+    width: 72px;
+    max-width: 100%;
+    height: auto;
+}
+
+.login-card__title {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.login-card__subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.login-card__content {
+    padding: 2rem 1.75rem;
+}
+
+.login-form__heading {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #1f2b3a;
+}
+
+.login-form__intro {
+    margin: 0.45rem 0 1.5rem;
+    color: #5d6a7b;
+}
+
+.login-alert {
+    font-size: 0.9rem;
+    border-radius: 0.65rem;
+}
+
+.login-label {
+    font-weight: 600;
+    color: #28384d;
+}
+
+.login-input {
+    height: 46px;
+    border-radius: 0.65rem;
+    border-color: #c9d3e0;
+}
+
+.login-input:focus {
+    border-color: #1f6fd1;
+    box-shadow: 0 0 0 0.22rem rgba(31, 111, 209, 0.18);
+}
+
+.login-submit {
+    height: 46px;
+    border: none;
+    border-radius: 0.65rem;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(145deg, #0e4ea8 0%, #1f6fd1 100%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-submit:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(31, 111, 209, 0.25);
+}
+
+@media (max-width: 991.98px) {
+    .login-card__brand {
+        align-items: center;
+        text-align: center;
+        padding: 1.65rem 1.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .login-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .login-card__content {
+        padding: 1.5rem 1.2rem;
+    }
+
+    .login-form__heading {
+        font-size: 1.35rem;
+    }
 }

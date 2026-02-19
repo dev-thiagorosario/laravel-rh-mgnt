@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('zip_code');
             $table->string('city');
             $table->string('phone');
-            $table->string('salary', 10,2);
+            $table->decimal('salary', 10, 2);
             $table->date('admission_date');
             $table->timestamps();
         });
