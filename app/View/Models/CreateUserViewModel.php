@@ -6,7 +6,7 @@ namespace App\View\Models;
 
 use App\Models\Departament;
 
-final class CreateUserViewModel
+class CreateUserViewModel
 {
     public function departments(): array
     {
