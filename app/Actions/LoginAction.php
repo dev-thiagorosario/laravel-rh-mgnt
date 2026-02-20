@@ -7,21 +7,28 @@ namespace App\Actions;
 use App\Exceptions\LoginException;
 use Illuminate\Support\Facades\Auth;
 
-class LoginAction implements LoginActionInterface
+final class LoginAction implements LoginActionInterface
 {
     public function execute(array $credentials): void
     {
-        $login = (string) ($credentials['login'] ?? $credentials['email'] ?? '');
+        $login = trim((string) ($credentials['login'] ?? $credentials['email'] ?? ''));
         $password = (string) ($credentials['password'] ?? '');
 
         if ($login === '' || $password === '') {
-            throw new LoginException();
+            throw new LoginException('Credenciais inválidas.');
         }
 
-        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) !== false
+            ? 'email'
+            : 'name';
 
-        if (! Auth::attempt([$field => $login, 'password' => $password])) {
-            throw new LoginException();
+        $authenticated = Auth::attempt([
+            $field => $login,
+            'password' => $password,
+        ]);
+
+        if (! $authenticated) {
+            throw new LoginException('Login ou senha incorretos.');
         }
 
         session()->regenerate();

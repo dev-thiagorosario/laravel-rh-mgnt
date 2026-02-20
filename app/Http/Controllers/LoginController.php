@@ -10,7 +10,7 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
 
-class LoginController extends Controller
+final class LoginController extends Controller
 {
     public function __construct(
         private readonly LoginActionInterface $loginAction,
@@ -21,15 +21,16 @@ class LoginController extends Controller
         try {
             $this->loginAction->execute($request->validated());
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()
+            ->intended(route('dashboard'));
         } catch (LoginException $e) {
             return back()
-                ->withErrors(['email' => $e->getMessage()])
-                ->onlyInput('email');
-        } catch (Throwable $e) {
+                ->withErrors(['login' => $e->getMessage()])
+                ->onlyInput('login');
+        } catch (Throwable) {
             return back()
-                ->withErrors(['email' => 'Ocorreu um erro inesperado ao fazer login.'])
-                ->onlyInput('email');
+                ->withErrors(['login' => 'Ocorreu um erro inesperado ao fazer login.'])
+                ->onlyInput('login');
         }
     }
 }
