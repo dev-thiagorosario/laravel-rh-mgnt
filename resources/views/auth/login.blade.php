@@ -15,7 +15,7 @@
                             <div class="col-lg-7">
                                 <div class="login-card__content">
                                     <h2 class="login-form__heading">Entrar</h2>
-                                    <p class="login-form__intro">Use seu e-mail e senha para continuar.</p>
+                                    <p class="login-form__intro">Use seu e-mail ou usuario e senha para continuar.</p>
 
                                     @if ($errors->any())
                                         <div class="alert alert-danger login-alert" role="alert">
@@ -23,19 +23,19 @@
                                         </div>
                                     @endif
 
-                                    <form action="{{ route('login') }}" method="POST" class="login-form">
+                                    <form action="{{ route('login.authenticate') }}" method="POST" class="login-form">
                                         @csrf
 
                                         <div class="mb-3">
-                                            <label for="email" class="form-label login-label">Email</label>
+                                            <label for="email" class="form-label login-label">Email ou usuario</label>
                                             <input
-                                                type="email"
+                                                type="text"
                                                 name="email"
                                                 id="email"
                                                 value="{{ old('email') }}"
-                                                placeholder="Digite seu email"
+                                                placeholder="Digite seu email ou usuario"
                                                 class="form-control login-input @error('email') is-invalid @enderror"
-                                                autocomplete="email"
+                                                autocomplete="username"
                                                 autofocus
                                                 required
                                             >

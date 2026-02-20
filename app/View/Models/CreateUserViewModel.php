@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\View\Models;
 
 use App\Models\Departament;
+use Illuminate\Database\Eloquent\Model;
 
-final class CreateUserViewModel
+class CreateUserViewModel extends Model
+
 {
     public function departments(): array
     {
