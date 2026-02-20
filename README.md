@@ -7,43 +7,127 @@
 <p align="center">
   <img src="https://img.shields.io/badge/PHP-8%2B-blue" alt="PHP Version">
   <img src="https://img.shields.io/badge/Laravel-Framework-red" alt="Laravel">
-  <img src="https://img.shields.io/badge/Database-MySQL-blue" alt="MySQL">
+  <img src="https://img.shields.io/badge/Database-PostgreSQL%20%2F%20MySQL-blue" alt="Database">
   <img src="https://img.shields.io/badge/Status-In%20Development-yellow" alt="Project Status">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
 ---
 
-# Human Resources Management System (HRMS)
+# Human Resources Management System (HRMS) — Laravel
 
-A complete **Human Resources Management System** built with **Laravel**, developed as the largest hands-on project of the course, simulating a real-world corporate HR application.
+A complete **Human Resources Management System** built with **Laravel** as a **realistic corporate HR platform**.  
+This is the **biggest project of the course**, designed to consolidate **Laravel fundamentals + advanced concepts**, with a focus on **clean structure, authentication, policies/authorization, and an admin-ready interface**.
 
-This project was designed to consolidate fundamental and advanced Laravel concepts while following best practices in architecture, code organization, and professional development workflows.
+> Goal: simulate a real company HR system with multiple user types, access control, and scalable modules.
 
 ---
 
 ## 📌 About the Project
 
-The **HRMS** is a web application focused on managing internal Human Resources processes, covering everything from the system foundation to essential flows such as authentication, user management, and administrative data handling.
-
-The application is built in a scalable way, allowing continuous evolution as new features are added throughout the development process.
+The **HRMS** centralizes HR routines such as:
+- **Authentication and access control** (login flow + authorization via Policies/Gates)
+- **User management by roles** (Admin, Manager, Employee)
+- **Department-based control** (Managers limited to their own department)
+- Structure ready to grow into modules like **employees, job roles, payroll, vacations, attendance**, etc.
 
 ---
 
-## 🚀 Features
+## 👥 User Types & Permissions
 
-- User registration and management (Administrators and Employees)
-- Complete authentication system
-  - Login
-  - Logout
-  - Password recovery
-  - Password reset
-- Initial structure for roles, departments, and permissions
-- Administrative HR data management
-- Organized and responsive admin layout
-- Seeders and factories for development and testing
-- MySQL database integration
-- Local email testing with MailHog
+### ✅ Admin
+- Has full access across the system
+- Can **create users in any department**
+- Can manage sensitive HR resources globally
+
+### ✅ Manager
+- Has elevated access inside their scope
+- Can **create users ONLY inside their own department**
+- Typical permissions: view/manage employees of their department, approve requests, etc.
+
+### ✅ Employee
+- Standard access user
+- Can view/edit only their own profile (and other allowed resources)
+- **Cannot create or delete users**
+
+> This “department boundary” is enforced at the authorization level (Policies), not only in the UI.
+
+---
+
+## 🔐 Authentication Flow (Login)
+
+The project implements a clean login flow using Laravel’s native Auth stack:
+
+- Login screen (Blade)
+- Validation of credentials
+- Session-based authentication
+- Logout
+- Protected routes guarded by middleware
+- Authorization enforced by Policies
+
+### Typical flow
+1. User accesses `/login`
+2. Submits credentials
+3. Laravel authenticates + regenerates session
+4. Redirect to dashboard based on role (Admin/Manager/Employee)
+5. Protected resources are controlled by Policies
+
+---
+
+## 🛡️ Authorization (Policies)
+
+The project uses **Laravel Policies** to control actions in a reliable and scalable way.
+
+### Example rules implemented / intended
+- **User creation**
+  - Admin can create users in any department
+  - Manager can create users only in **their own department**
+  - Employee cannot create users
+
+This ensures:
+- Security at code level (not only front-end)
+- Clear separation of responsibilities
+- Easy maintenance as the system grows
+
+---
+
+## 🚀 Main Features (Current + Core Foundation)
+
+### ✅ Foundation
+- Laravel project structured with MVC
+- Migrations, seeders, factories
+- Ready to scale with new modules
+
+### ✅ Authentication
+- Login
+- Logout
+- Protected routes
+
+### ✅ User Management
+- Users with role classification (Admin / Manager / Employee)
+- Department linking for each user
+- Controlled creation rules (Policies)
+
+### ✅ HR Core Structure
+- Departments module (base)
+- Seeders to populate initial system data
+- Factories for development/testing
+
+> As the project evolves, new HR modules will be added and documented here (vacations, payroll, requests, attendance, etc.).
+
+---
+
+## 🧱 Project Structure
+
+- `app/Models` → Models (User, Department, etc.)
+- `app/Policies` → Authorization rules (Policies)
+- `app/Http/Controllers` → Controllers (including invokable controllers where useful)
+- `database/migrations` → Schema
+- `database/seeders` → Initial data (admin, managers, employees, departments)
+- `database/factories` → Test data
+- `resources/views` → Blade UI (auth + admin layouts)
+- `routes/web.php` → Web routes
+- `routes/auth.php` → Auth routes (if used in your setup)
 
 ---
 
@@ -51,64 +135,49 @@ The application is built in a scalable way, allowing continuous evolution as new
 
 - **PHP 8+**
 - **Laravel**
-- **MySQL**
 - **Blade**
 - **HTML5 / CSS3**
 - **Eloquent ORM**
-- **Migrations, Seeders, and Factories**
-- **MailHog (local environment)**
+- **Migrations, Seeders, Factories**
+- **Policies (Authorization)**
+- **PostgreSQL or MySQL** (depends on your environment)
+- Optional local mail testing (MailHog)
 
 ---
 
-## 🧱 Project Structure
-
-The project follows Laravel’s standard structure, with a strong focus on organization, readability, and maintainability:
-
-- `app/Models` → Application models
-- `database/migrations` → Database schema
-- `database/seeders` → Initial system data
-- `database/factories` → Fake data for testing
-- `resources/views` → Application views and layouts
-- `routes/web.php` → Web routes
-- `routes/auth.php` → Authentication routes
-
----
-
-## ⚙️ Installation and Setup
+## ⚙️ Installation & Setup
 
 ### Requirements
-
 - PHP 8+
 - Composer
-- MySQL
-- Node.js (optional, for assets)
-- MailHog (optional, for email testing)
+- Database (PostgreSQL or MySQL)
+- Node.js (optional, for front assets)
 
 ### Step by step
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/your-repository.git
-
-# Access the project directory
-cd your-repository
+# Clone
+git clone https://github.com/your-username/laravel-rh-mgnt.git
+cd laravel-rh-mgnt
 
 # Install dependencies
 composer install
 
-# Copy environment file
+# Env
 cp .env.example .env
-
-# Generate application key
 php artisan key:generate
 
 # Configure database in .env
-DB_DATABASE=hrms
-DB_USERNAME=root
-DB_PASSWORD=
+# Example:
+# DB_CONNECTION=pgsql
+# DB_HOST=db
+# DB_PORT=5432
+# DB_DATABASE=laravel_rh_mgnt
+# DB_USERNAME=postgres
+# DB_PASSWORD=postgres
 
-# Run migrations and seeders
+# Migrate + seed
 php artisan migrate --seed
 
-# Start the application
+# Run
 php artisan serve
