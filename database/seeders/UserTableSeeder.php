@@ -38,7 +38,7 @@ class UserTableSeeder extends Seeder
                     [
                         'name' => "Admin {$departamentName}",
                         'departament_id' => $departamentId,
-                        'password' => 'aaa123',
+                        'password' => 'Aaa123',
                         'role' => 'admin',
                         'permissions' => 'all',
                         'deleted_at' => null,
@@ -52,7 +52,7 @@ class UserTableSeeder extends Seeder
                     [
                         'name' => "Manager {$departamentName}",
                         'departament_id' => $departamentId,
-                        'password' => 'aaa123',
+                        'password' => 'Aaa123',
                         'role' => 'manager',
                         'permissions' => 'write',
                         'deleted_at' => null,
@@ -67,7 +67,7 @@ class UserTableSeeder extends Seeder
                         [
                             'name' => "Employee {$employeeNumber} {$departamentName}",
                             'departament_id' => $departamentId,
-                            'password' => 'aaa123',
+                            'password' => 'Aaa123',
                             'role' => 'employee',
                             'permissions' => '',
                             'deleted_at' => null,
