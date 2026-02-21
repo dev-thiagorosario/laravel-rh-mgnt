@@ -7,6 +7,11 @@ use App\Http\Controllers\CreateUserViewController;
 use Illuminate\Support\Facades\Route;
 
 
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
         return view('home.dashboard');
