@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginViewController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\CreateUserViewController;
+use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,3 +24,4 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/login', LoginViewController::class)->name('login');
 Route::post('/login', LoginController::class)->name('login.authenticate');
+Route::post('/logout', LogoutController::class)->name('logout');
