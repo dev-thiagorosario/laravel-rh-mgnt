@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\CreateUserViewController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users/create', CreateUserViewController::class)->name('users.create');
     Route::post('/api/users', CreateUserController::class)->name('users.store');
+    Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
 });
 
 Route::get('/login', LoginViewController::class)->name('login');
