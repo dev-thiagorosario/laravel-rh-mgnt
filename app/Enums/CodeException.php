@@ -10,4 +10,6 @@ enum CodeException: int
     case ERROR_LOGIN_VIEW = 1002;
     case ERROR_CREATE_USER = 1003;
     case ERROR_LOGIN = 1004;
+    case ERROR_LOGOUT = 1005;
+    case ERROR_RESET_PASSWORD = 1006;
 }
