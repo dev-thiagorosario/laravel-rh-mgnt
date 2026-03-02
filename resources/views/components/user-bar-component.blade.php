@@ -1,34 +1,34 @@
-<div class="d-flex justify-content-between bg-color-1 text-white py-1 px-3">
-    
-    <!-- logo -->
-    <div class="d-flex align-items-center">
-        <a href="#">
-            <img src="{{ asset('assets/images/favicon.png') }}" alt="logo" width="50px" class="img-fluid">
+<header class="user-bar">
+    @php
+        $dashboardRoute = \Illuminate\Support\Facades\Route::has('dashboard') ? route('dashboard') : '#';
+    @endphp
+
+    <div class="user-bar__brand">
+        <a href="{{ $dashboardRoute }}" class="user-bar__logo-link" aria-label="Ir para dashboard">
+            <img src="{{ asset('assets/images/favicon.png') }}" alt="Logo RH" class="user-bar__logo">
         </a>
-        <h4 class="ms-3 text-primary m-0 p-0">
-            {{ config('app.name') }}
-        </h4>
+        <div class="user-bar__brand-copy">
+            <p class="user-bar__product">{{ config('app.name') }}</p>
+            <small class="user-bar__tagline">Painel Administrativo</small>
+        </div>
     </div>
 
-    <!-- user -->
-    <div class="d-flex align-items-center">
-        <i class="fas fa-user-circle me-3"></i>
-        <div class="d-flex flex-column me-3">
-            <a href="#" class="text-primary">
-                {{ $name }}
-            </a>
-            <small class="text-light">
-                {{ $department }}
-            </small>
+    <div class="user-bar__account">
+        <span class="user-bar__avatar" aria-hidden="true">
+            <i class="fas fa-user"></i>
+        </span>
+
+        <div class="user-bar__meta">
+            <p class="user-bar__name">{{ $name }}</p>
+            <small class="user-bar__department">{{ $department }}</small>
         </div>
 
-        <!-- logout -->
-        <form action="{{ route('logout') }}" method="post">
+        <form action="{{ route('logout') }}" method="post" class="user-bar__logout-form">
             @csrf
-            <button type="submit" class="btn btn-sm btn-danger">
-                <i class="fas fa-sign-out-alt"></i>
+            <button type="submit" class="user-bar__logout-btn" aria-label="Sair da conta">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                <span class="user-bar__logout-text">Sair</span>
             </button>
         </form>
     </div>
-
-</div>
+</header>

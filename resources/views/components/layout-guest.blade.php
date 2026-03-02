@@ -1,3 +1,8 @@
+@props([
+    'pageTitle' => null,
+    'showNavigation' => true,
+])
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -6,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {{ env('APP_NAME') }} @isset($pageTitle)
-        - {{ $pageTitle }}
-    @endisset
+            - {{ $pageTitle }}
+        @endisset
     </title>
 
     <!-- favicon -->
@@ -19,8 +24,23 @@
 </head>
 
 <body>
-    
-    {{ $slot }}
+    @auth
+        @if($showNavigation)
+            <x-user-bar-component></x-user-bar-component>
+
+            <div class="app-shell">
+                <x-side-bar-component></x-side-bar-component>
+
+                <main class="app-shell__content">
+                    {{ $slot }}
+                </main>
+            </div>
+        @else
+            {{ $slot }}
+        @endif
+    @else
+        {{ $slot }}
+    @endauth
     <!-- resources -->
     <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
 

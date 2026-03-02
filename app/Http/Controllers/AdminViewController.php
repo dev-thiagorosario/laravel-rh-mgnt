@@ -18,9 +18,9 @@ class AdminViewController extends Controller
     public function __invoke(): View
     {
         try {
-            return view('admin',
-                ['admin' => $this->showAdminAction->execute()]
-            );
+            return view('dashboard', [
+                'admin' => $this->showAdminAction->execute()->toArray(),
+            ]);
         } catch (AdminViewException $e) {
             abort(
                 500,
