@@ -23,11 +23,14 @@ final class LoginController extends Controller
 
             return redirect()
             ->intended(route('dashboard'));
+
         } catch (LoginException $e) {
+
             return back()
                 ->withErrors(['login' => $e->getMessage()])
                 ->onlyInput('login');
         } catch (Throwable) {
+            
             return back()
                 ->withErrors(['login' => 'Ocorreu um erro inesperado ao fazer login.'])
                 ->onlyInput('login');

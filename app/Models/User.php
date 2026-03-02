@@ -35,8 +35,13 @@ class User extends Authenticatable
         return $this->belongsTo(Departament::class);
     }
 
-  public function detail(): HasOne
-  {
-      return $this->hasOne(UserDetail::class);
-  }
+    public function detail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
+    public function getRoleUser(): string
+    {
+        return $this->role;
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types=1);
+
 namespace App\Providers;
 
 use App\Actions\CreateUserAction;
@@ -13,6 +15,7 @@ use App\Actions\ResetPasswordActionInterface;
 use App\Actions\ShowAdminAction;
 use App\Actions\ShowAdminActionInterface;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +55,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+    /**
+     * Gates
+     */
+
+    // Admin gate
+    Gate::define('admin', function ($user) {
+        return $user->role === 'admin';
+    });
+    
+    // Manager gate
+    Gate::define('manager', function ($user) {
+        return $user->role === 'manager';
+    });
+    
+    // Employee gate
+    Gate::define('employee', function ($user) {
+        return $user->role === 'employee';
+    });
     }
 }

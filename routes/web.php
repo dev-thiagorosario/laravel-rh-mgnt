@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginViewController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\CreateUserViewController;
 use App\Http\Controllers\LogoutController;
@@ -15,10 +16,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin', function () {
-        return view('home.dashboard');
-    });
-
+    Route::get('/dashboard', AdminViewController::class)->name('dashboard');
     Route::get('/users/create', CreateUserViewController::class)->name('users.create');
     Route::post('/api/users', CreateUserController::class)->name('users.store');
     Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
