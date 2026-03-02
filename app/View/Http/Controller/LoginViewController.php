@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\View\Http\Controller;
 
 use App\Exceptions\LoginViewException;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Throwable;
 
@@ -19,7 +20,7 @@ class LoginViewController extends Controller
         } catch (Throwable $e) {
 
             throw new LoginViewException(previous: $e);
-            
+
         }
     }
 }

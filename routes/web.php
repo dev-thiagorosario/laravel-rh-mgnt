@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\LoginViewController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\CreateUserController;
-use App\Http\Controllers\CreateUserViewController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ResetPasswordController;
+use App\View\Http\Controller\AdminViewController;
+use App\View\Http\Controller\CreateUserViewController;
+use App\View\Http\Controller\LoginViewController;
 use Illuminate\Support\Facades\Route;
-
 
 
 Route::get('/', function () {
