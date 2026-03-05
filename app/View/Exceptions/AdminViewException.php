@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\View\Exceptions;
 
-use Throwable;
 use App\Enums\CodeException;
+use Throwable;
 
 class AdminViewException extends \RuntimeException
 {

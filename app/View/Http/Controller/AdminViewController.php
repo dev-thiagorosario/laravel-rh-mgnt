@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\View\Http\Controller;
 
 use App\Actions\ShowAdminActionInterface;
-use App\Exceptions\AdminViewException;
 use App\Http\Controllers\Controller;
+use App\View\Exceptions\AdminViewException;
 use Illuminate\Contracts\View\View;
 use Throwable;
 
@@ -24,11 +24,14 @@ class AdminViewController extends Controller
             ]);
         } catch (AdminViewException $e) {
             abort(
-                500,
+                $e->getCode(),
                 $e->getMessage());
-        } catch (Throwable) {
-            abort(500,
-                'An unexpected error occurred.');
+        } catch (Throwable $e) {
+            abort(
+                500,
+                'An unexpected error occurred.',
+                $e->getMessage()
+            );
         }
     }
 }

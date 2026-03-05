@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\View\Http\Controller;
 
-use App\Exceptions\LoginViewException;
 use App\Http\Controllers\Controller;
+use App\View\Exceptions\LoginViewException;
 use Illuminate\Contracts\View\View;
 use Throwable;
 
@@ -17,9 +17,20 @@ class LoginViewController extends Controller
 
             return view('auth.login');
 
+        } catch (LoginViewException $e) {
+
+            abort(
+                $e->getCode(),
+                $e->getMessage()
+            );
+
         } catch (Throwable $e) {
 
-            throw new LoginViewException(previous: $e);
+            abort(
+            500, 
+            'An unexpected error occurred.',
+            $e->getMessage()
+            );
 
         }
     }
