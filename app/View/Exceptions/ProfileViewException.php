@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\View\Exceptions;
 
 use App\Enums\CodeException;
+use Throwable;
 
 
 class ProfileViewException extends \RuntimeException

@@ -7,10 +7,10 @@ namespace App\View\Http\Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
-final class ProfileViewController extends Controller
+final class DashboardViewController extends Controller
 {
     public function __invoke(): View
     {
-        return view('user-profile');
+        return view('dashboard');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -12,23 +12,14 @@ use App\Actions\LogoutAction;
 use App\Actions\LogoutActionInterface;
 use App\Actions\ResetPasswordAction;
 use App\Actions\ResetPasswordActionInterface;
-use App\Actions\ShowAdminAction;
-use App\Actions\ShowAdminActionInterface;
-use Illuminate\Support\ServiceProvider;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        $this->app->bind(
-            ShowAdminActionInterface::class,
-            ShowAdminAction::class
-        );
-
         $this->app->bind(
             CreateUserActionInterface::class,
             CreateUserAction::class
@@ -50,28 +41,10 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-    /**
-     * Gates
-     */
-
-    // Admin gate
-    Gate::define('admin', function ($user) {
-        return $user->role === 'admin';
-    });
-    
-    // Manager gate
-    Gate::define('manager', function ($user) {
-        return $user->role === 'manager';
-    });
-    
-    // Employee gate
-    Gate::define('employee', function ($user) {
-        return $user->role === 'employee';
-    });
+        Gate::define('admin', static fn (User $user): bool => $user->role === 'admin');
+        Gate::define('manager', static fn (User $user): bool => $user->role === 'manager');
+        Gate::define('employee', static fn (User $user): bool => $user->role === 'employee');
     }
 }

@@ -4,9 +4,10 @@ use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ResetPasswordController;
-use App\View\Http\Controller\AdminViewController;
 use App\View\Http\Controller\CreateUserViewController;
+use App\View\Http\Controller\DashboardViewController;
 use App\View\Http\Controller\LoginViewController;
+use App\View\Http\Controller\ProfileViewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,10 +16,11 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', AdminViewController::class)->name('dashboard');
+    Route::get('/dashboard', DashboardViewController::class)->name('dashboard');
     Route::get('/users/create', CreateUserViewController::class)->name('users.create');
     Route::post('/api/users', CreateUserController::class)->name('users.store');
     Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
+    Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
 });
 
 Route::get('/login', LoginViewController::class)->name('login');

@@ -1,3 +1,3 @@
-<div>
-    <!-- Simplicity is the consequence of refined emotions. - Jean D'Alembert -->
-</div>
+<x-layout-guest page-title="Perfil do Usuário">
+    <x-user-profile-component />
+</x-layout-guest>
