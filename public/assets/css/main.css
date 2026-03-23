@@ -267,6 +267,17 @@ body {
     transform: none;
 }
 
+.sidebar__link--disabled {
+    color: #7d8ea1;
+    background: #f6f8fb;
+    border-color: #e4ebf5;
+    cursor: not-allowed;
+}
+
+.sidebar__link--disabled .sidebar__link-icon {
+    color: #91a1b2;
+}
+
 @media (max-width: 991.98px) {
     .app-shell {
         flex-direction: column;

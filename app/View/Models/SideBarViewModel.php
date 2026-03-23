@@ -48,22 +48,21 @@ final class SideBarViewModel
 
     private function availableMenuItems(array $items): array
     {
-        return array_values(array_filter(array_map(
-            fn (array $item): ?array => $this->menuItem($item['title'], $item['route'], $item['icon']),
+        return array_values(array_map(
+            fn (array $item): array => $this->menuItem($item['title'], $item['route'], $item['icon']),
             $items
-        )));
+        ));
     }
 
-    private function menuItem(string $title, string $routeName, string $icon): ?array
+    private function menuItem(string $title, string $routeName, string $icon): array
     {
-        if (! Route::has($routeName)) {
-            return null;
-        }
+        $isAvailable = Route::has($routeName);
 
         return [
             'title' => $title,
-            'route' => route($routeName),
+            'route' => $isAvailable ? route($routeName) : '#',
             'icon' => $icon,
+            'is_available' => $isAvailable,
         ];
     }
 }

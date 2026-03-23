@@ -78,4 +78,25 @@ class AuthNavigationTest extends TestCase
         $response->assertSeeText('Tecnologia');
         $response->assertSeeText('01/03/2026 10:15');
     }
+
+    public function test_admin_sees_all_sidebar_shortcuts_on_dashboard(): void
+    {
+        $department = Departament::factory()->create(['name' => 'Tecnologia']);
+        $user = User::factory()->create([
+            'departament_id' => $department->id,
+            'role' => 'admin',
+        ]);
+
+        $response = $this->actingAs($user)->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertSeeTextInOrder([
+            'Home',
+            'Todos Colaboradores',
+            'Departamentos',
+            'Adicionar Colaborador',
+            'Colaboradores do Departamento',
+            'Perfil do Usuário',
+        ]);
+    }
 }
