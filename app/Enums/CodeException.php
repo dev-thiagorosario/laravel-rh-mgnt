@@ -12,4 +12,5 @@ enum CodeException: int
     case ERROR_LOGIN = 1004;
     case ERROR_LOGOUT = 1005;
     case ERROR_RESET_PASSWORD = 1006;
+    case ERROR_PROFILE_VIEW = 1007;
 }

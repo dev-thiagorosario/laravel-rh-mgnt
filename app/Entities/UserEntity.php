@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entities;
 
 use App\Models\User;
+use DateTimeImmutable;
 use DateTimeInterface;
 
 class UserEntity
@@ -17,8 +18,8 @@ class UserEntity
     protected ?string $permissions = null;
     protected ?int $departament_id = null;
     protected ?string $departament_name = null;
-    protected ?string $created_at = null;
-    protected ?string $updated_at = null;
+    protected ?DateTimeInterface $created_at = null;
+    protected ?DateTimeInterface $updated_at = null;
     protected ?UserDetailEntity $detail = null;
     protected ?DepartamentEntity $department = null;
 
@@ -110,23 +111,23 @@ class UserEntity
         return $this;
     }
 
-    public function getCreatedAt(): ?string
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?string $created_at): self
+    public function setCreatedAt(?DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
         return $this;
     }
 
-    public function getUpdatedAt(): ?string
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?string $updated_at): self
+    public function setUpdatedAt(?DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
         return $this;
@@ -156,9 +157,6 @@ class UserEntity
 
     public static function fromModel(User $user): self
     {
-        $createdAt = $user->created_at;
-        $updatedAt = $user->updated_at;
-
         $entity = new self();
         $entity->setId($user->id);
         $entity->setName($user->name);
@@ -168,12 +166,29 @@ class UserEntity
         $entity->setPermissions($user->permissions ?? '[]');
         $entity->setDepartamentId($user->departament_id);
         $entity->setDepartamentName($user->departament?->name);
-        $entity->setCreatedAt($createdAt instanceof DateTimeInterface ? $createdAt->format('Y-m-d H:i:s') : (is_string($createdAt) ? $createdAt : null));
-        $entity->setUpdatedAt($updatedAt instanceof DateTimeInterface ? $updatedAt->format('Y-m-d H:i:s') : (is_string($updatedAt) ? $updatedAt : null));
+        $entity->setCreatedAt(self::normalizeDate($user->created_at));
+        $entity->setUpdatedAt(self::normalizeDate($user->updated_at));
         $entity->setDetail($user->detail !== null ? UserDetailEntity::fromModel($user->detail) : null);
         $entity->setDepartment($user->departament !== null ? DepartamentEntity::fromModel($user->departament) : null);
 
         return $entity;
+    }
+
+    private static function normalizeDate(mixed $value): ?DateTimeInterface
+    {
+        if ($value instanceof DateTimeInterface) {
+            return $value;
+        }
+
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
+
+        try {
+            return new DateTimeImmutable($value);
+        } catch (\Exception) {
+            return null;
+        }
     }
 
     /**
@@ -190,8 +205,8 @@ class UserEntity
             'permissions' => $this->getPermissions(),
             'departament_id' => $this->getDepartamentId(),
             'departament_name' => $this->getDepartamentName(),
-            'created_at' => $this->getCreatedAt(),
-            'updated_at' => $this->getUpdatedAt(),
+            'created_at' => $this->getCreatedAt()?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->getUpdatedAt()?->format('Y-m-d H:i:s'),
             'detail' => $this->getDetail()?->toArray(),
             'department' => $this->getDepartment()?->toArray(),
         ];
