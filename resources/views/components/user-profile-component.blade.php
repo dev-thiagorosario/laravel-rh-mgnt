@@ -43,6 +43,20 @@
                 </dt>
                 <dd class="fs-5 mb-0">{{ $createdAt }}</dd>
             </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-end">
+                <dt class="visually-hidden">Ações</dt>
+                <dd class="mb-0 mt-auto">
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        aria-label="Editar dados do usuário"
+                    >
+                        <i class="fa-solid fa-pen-to-square me-2" aria-hidden="true"></i>
+                        Editar dados do usuário
+                    </button>
+                </dd>
+            </div>
+
         </dl>
     </div>
 </section>
