@@ -4,27 +4,26 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
+use App\View\Models\CreateUserViewModel;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class CreateUserComponent extends Component
 {
-    /**
-     * @param array<int, array{id:int, name:string}> $departments
-     * @param array<int, array{value:string, label:string}> $roles
-     * @param array<int, array{value:string, label:string}> $permissions
-     */
-    public function __construct(
-        public readonly array $departments = [],
-        public readonly array $roles = [],
-        public readonly array $permissions = [],
-        public readonly string $submitUrl = ''
-    ) {}
+    public array $departments;
+    public array $roles;
+    public array $permissions;
+    public string $submitUrl;
 
-    /**
-     * Get the view / contents that represent the component.
-     */
+    public function __construct(CreateUserViewModel $vm)
+    {
+        $this->departments = $vm->departments();
+        $this->roles = $vm->roles();
+        $this->permissions = $vm->permissions();
+        $this->submitUrl = route('users.store');
+    }
+
     public function render(): View|Closure|string
     {
         return view('components.create-user-component');
