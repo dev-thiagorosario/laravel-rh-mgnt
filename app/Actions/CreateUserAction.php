@@ -6,9 +6,8 @@ namespace App\Actions;
 
 use App\DTO\CreateUserDTO;
 use App\Entities\UserEntity;
-use App\Exceptions\CreateUserException;
 use App\Models\User;
-use Throwable;
+
 
 class CreateUserAction implements CreateUserActionInterface
 {

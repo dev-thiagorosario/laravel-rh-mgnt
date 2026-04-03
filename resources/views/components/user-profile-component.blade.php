@@ -1,3 +1,5 @@
+@php($updateUserModalId = 'updateUserModal')
+
 <section class="card shadow-sm border-0">
     <div class="card-body p-4 p-lg-5">
         <p class="text-uppercase text-muted fw-semibold mb-2">Perfil</p>
@@ -43,6 +45,31 @@
                 </dt>
                 <dd class="fs-5 mb-0">{{ $createdAt }}</dd>
             </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-end">
+                <dt class="visually-hidden">Ações</dt>
+                <dd class="mb-0 mt-auto">
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        aria-label="Editar dados do usuário"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ $updateUserModalId }}"
+                    >
+                        <i class="fa-solid fa-pen-to-square me-2" aria-hidden="true"></i>
+                        Editar dados do usuário
+                    </button>
+                </dd>
+            </div>
+
         </dl>
     </div>
 </section>
+
+<x-update-user-component
+    :modal-id="$updateUserModalId"
+    :user-name="$userName"
+    :user-email="$userEmail"
+    :user-role="$userRole"
+    :user-department="$userDepartment"
+    :created-at="$createdAt"
+/>

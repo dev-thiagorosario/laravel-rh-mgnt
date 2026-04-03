@@ -15,14 +15,16 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::middleware('guest')->group(function () {
+    Route::get('/login', LoginViewController::class)->name('login');
+    Route::post('/login', LoginController::class)->name('login.authenticate');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardViewController::class)->name('dashboard');
     Route::get('/users/create', CreateUserViewController::class)->name('users.create');
     Route::post('/api/users', CreateUserController::class)->name('users.store');
     Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
     Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
+    Route::post('/logout', LogoutController::class)->name('logout');
 });
-
-Route::get('/login', LoginViewController::class)->name('login');
-Route::post('/login', LoginController::class)->name('login.authenticate');
-Route::post('/logout', LogoutController::class)->name('logout');

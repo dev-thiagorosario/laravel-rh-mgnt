@@ -40,6 +40,18 @@ class AuthNavigationTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+    public function test_authenticated_user_is_redirected_from_login_page_to_dashboard(): void
+    {
+        $department = Departament::factory()->create();
+        $user = User::factory()->create([
+            'departament_id' => $department->id,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('login'));
+
+        $response->assertRedirect(route('dashboard'));
+    }
+
     public function test_authenticated_user_can_view_dashboard(): void
     {
         $department = Departament::factory()->create(['name' => 'Tecnologia']);
