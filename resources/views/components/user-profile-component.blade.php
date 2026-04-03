@@ -1,3 +1,5 @@
+@php($updateUserModalId = 'updateUserModal')
+
 <section class="card shadow-sm border-0">
     <div class="card-body p-4 p-lg-5">
         <p class="text-uppercase text-muted fw-semibold mb-2">Perfil</p>
@@ -50,6 +52,8 @@
                         type="button"
                         class="btn btn-outline-secondary"
                         aria-label="Editar dados do usuário"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ $updateUserModalId }}"
                     >
                         <i class="fa-solid fa-pen-to-square me-2" aria-hidden="true"></i>
                         Editar dados do usuário
@@ -60,3 +64,12 @@
         </dl>
     </div>
 </section>
+
+<x-update-user-component
+    :modal-id="$updateUserModalId"
+    :user-name="$userName"
+    :user-email="$userEmail"
+    :user-role="$userRole"
+    :user-department="$userDepartment"
+    :created-at="$createdAt"
+/>

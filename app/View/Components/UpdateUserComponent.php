@@ -1,25 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class UpdateUserComponent extends Component
+final class UpdateUserComponent extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        //
+    public readonly bool $canSubmit;
+
+    public function __construct(
+        public readonly string $userName,
+        public readonly string $userEmail,
+        public readonly string $userRole = '',
+        public readonly string $userDepartment = '',
+        public readonly string $createdAt = '',
+        public readonly string $modalId = 'updateUserModal',
+        public readonly string $submitUrl = '#',
+    ) {
+        $this->canSubmit = $this->submitUrl !== '#';
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.update-user-component');
     }
