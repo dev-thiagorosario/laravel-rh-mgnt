@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "rh-mgnt Collection",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
