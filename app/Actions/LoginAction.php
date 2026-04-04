@@ -4,33 +4,51 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Exceptions\LoginException;
+use App\DTO\LoginInputDTO;
+use App\Entities\UserEntity;
+use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\UserBlockedException;
+use App\Exceptions\UserInactiveException;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 final class LoginAction implements LoginActionInterface
 {
-    public function execute(array $credentials): void
+    public function execute(LoginInputDTO $dto): UserEntity
     {
-        $login = trim((string) ($credentials['login'] ?? $credentials['email'] ?? ''));
-        $password = (string) ($credentials['password'] ?? '');
-
-        if ($login === '' || $password === '') {
-            throw new LoginException('Credenciais inválidas.');
-        }
-
-        $field = filter_var($login, FILTER_VALIDATE_EMAIL) !== false
+        $field = filter_var($dto->login, FILTER_VALIDATE_EMAIL) !== false
             ? 'email'
             : 'name';
 
-        $authenticated = Auth::attempt([
-            $field => $login,
-            'password' => $password,
-        ]);
+        $user = User::withTrashed()
+            ->where($field, $dto->login)
+            ->first();
 
-        if (! $authenticated) {
-            throw new LoginException('Login ou senha incorretos.');
+        if ($user === null || ! Hash::check($dto->password, (string) $user->password)) {
+            throw new InvalidCredentialsException();
         }
 
+        if ($user->trashed()) {
+            throw new UserInactiveException();
+        }
+
+        if ($this->isBlocked($user)) {
+            throw new UserBlockedException();
+        }
+
+        Auth::login($user);
         session()->regenerate();
+
+        $user->loadMissing(['departament', 'detail']);
+
+        return UserEntity::fromModel($user);
+    }
+
+    private function isBlocked(User $user): bool
+    {
+        return $user->getAttribute('is_blocked') === true
+            || $user->getAttribute('status') === 'blocked'
+            || $user->getAttribute('blocked_at') !== null;
     }
 }

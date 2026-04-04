@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Exceptions\LogoutException;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class LogoutAction implements LogoutActionInterface
 {
@@ -12,14 +14,18 @@ class LogoutAction implements LogoutActionInterface
     {
         $user = Auth::user();
 
-        $userId = $user->id;
-
-        if($user !== null && method_exists($user, 'currentAccessToken')){
-            $user->currentAccessToken()->delete();
+        if ($user === null) {
+            throw new LogoutException('Usuario nao autenticado.');
         }
 
-        if ($userId !== null) {
+        try {
+            if (method_exists($user, 'currentAccessToken') && $user->currentAccessToken() !== null) {
+                $user->currentAccessToken()->delete();
+            }
+
             Auth::logout();
+        } catch (Throwable $e) {
+            throw new LogoutException(previous: $e);
         }
     }
 }

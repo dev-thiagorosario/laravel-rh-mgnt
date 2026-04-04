@@ -9,51 +9,52 @@ use App\DTO\CreateUserDTO;
 use App\Entities\ResponseJsend;
 use App\Exceptions\CreateUserException;
 use App\Http\Requests\CreateUserRequest;
+use App\Traits\PresentUserTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Throwable;
 
-class CreateUserController extends Controller
+final class CreateUserController extends Controller
 {
+    use PresentUserTrait;
+
     public function __construct(
-        private readonly CreateUserActionInterface $createUserAction
+        private readonly CreateUserActionInterface $createUserAction,
     ) {}
 
-    public function __invoke(CreateUserRequest $request): JsonResponse|RedirectResponse
+    public function __invoke(CreateUserRequest $request): JsonResponse
     {
         try {
             $dto = CreateUserDTO::fromRequest($request->validated());
 
             $user = $this->createUserAction->execute($dto);
 
-            $userData = $user->toArray();
+            $data = [
+                'user' => $this->presentUser($user),
+            ];
 
-            unset($userData['password']);
-
-            $result = new ResponseJsend(
-                data: ['user' => $userData],
-                status: 'success',
-            );
+            $response = new ResponseJsend($data);
 
             return response()
-                ->json($result->toArray(), 201);
+            ->json($response->toArray(), 201);
         } catch (CreateUserException $e) {
-            $result = new ResponseJsend(
-                data: [],
-                status: 'fail',
+            $response = new ResponseJsend(
+                status: 'error',
                 message: $e->getMessage(),
                 code: $e->getCode(),
             );
 
-            return response()->json($result->toArray(), 400);
+            return response()
+            ->json($response->toArray(), 400);
         } catch (Throwable $e) {
-            $result = new ResponseJsend(
-                data: [],
+            $exception = new CreateUserException(previous: $e);
+            $response = new ResponseJsend(
                 status: 'error',
-                message: 'An unexpected error occurred.',
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
             );
-            }
 
-            return response()->json($result->toArray(), 500);
+            return response()
+            ->json($response->toArray(), 500);
         }
+    }
 }

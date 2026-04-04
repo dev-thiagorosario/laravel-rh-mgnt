@@ -13,7 +13,7 @@ use App\Actions\LogoutActionInterface;
 use App\Actions\ResetPasswordAction;
 use App\Actions\ResetPasswordActionInterface;
 use App\Actions\UpdateUserAction;
-use App\Actions\UpdateUserActionInterface; 
+use App\Actions\UpdateUserActionInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

@@ -15,4 +15,7 @@ enum CodeException: int
     case ERROR_PROFILE_VIEW = 1007;
     case UPDATE_USER_PROFILE = 1008;
     case ERROR_USER_NOT_FOUND = 1009;
+    case ERROR_USER_INACTIVE = 1010;
+    case ERROR_USER_BLOCKED = 1011;
+    case ERROR_LOGIN_PROCESS = 1012;
 }

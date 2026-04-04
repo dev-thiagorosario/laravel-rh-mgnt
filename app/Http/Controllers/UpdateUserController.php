@@ -32,7 +32,8 @@ class UpdateUserController extends Controller
 
             $response = new ResponseJsend();
 
-            return response()->json($response->toArray(), 200);
+            return response()
+            ->json($response->toArray(), 200);
         } catch (UserNotFoundException $e) {
             $response = new ResponseJsend(
                 status: 'error',
@@ -40,7 +41,8 @@ class UpdateUserController extends Controller
                 code: $e->getCode(),
             );
 
-            return response()->json($response->toArray(), 404);
+            return response()
+            ->json($response->toArray(), 404);
         } catch (UpdateUserException $e) {
             $response = new ResponseJsend(
                 status: 'error',
@@ -48,17 +50,17 @@ class UpdateUserController extends Controller
                 code: $e->getCode(),
             );
 
-            return response()->json($response->toArray(), 500);
-        } catch (Throwable $e) {
-            $exception = new UpdateUserException(previous: $e);
-
+            return response()
+            ->json($response->toArray(), 500);
+        } catch (Throwable $e) {   
             $response = new ResponseJsend(
                 status: 'error',
-                message: $exception->getMessage(),
-                code: $exception->getCode(),
+                message: $e->getMessage(),
+                code: $e->getCode(),
             );
 
-            return response()->json($response->toArray(), 500);
+            return response()
+            ->json($response->toArray(), 500);
         }
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\DTO\LoginInputDTO;
+use App\Entities\UserEntity;
+
 interface LoginActionInterface
 {
-    /**
-     * @param array{email:string,password:string} $credentials
-     */
-    public function execute(array $credentials): void;
+    public function execute(LoginInputDTO $dto): UserEntity;
 }
