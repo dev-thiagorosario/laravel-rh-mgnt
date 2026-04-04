@@ -1,0 +1,28 @@
+meta {
+  name: LoginUser
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/bruno/login
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "thiago@exemplo.com",
+    "password": "Aaa123"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
