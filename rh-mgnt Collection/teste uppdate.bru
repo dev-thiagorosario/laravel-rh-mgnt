@@ -1,0 +1,28 @@
+meta {
+  name: TesteUpdate
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/bruno/api/users/2
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Usuario Teste Bruno",
+    "email": "usuario.teste@example.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
