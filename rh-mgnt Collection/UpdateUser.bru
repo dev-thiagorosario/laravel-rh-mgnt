@@ -5,14 +5,9 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/bruno/api/users
+  url: http://localhost:8080/bruno/api/users/2
   body: json
   auth: inherit
-}
-
-settings {
-  encodeUrl: true
-  timeout: 0
 }
 
 headers {
@@ -25,4 +20,9 @@ body:json {
     "name": "Bruno Teste",
     "email": "bruno.teste@example.com"
   }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
 }

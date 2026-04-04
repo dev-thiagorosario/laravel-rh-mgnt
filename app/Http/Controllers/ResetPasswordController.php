@@ -8,54 +8,51 @@ use App\Actions\ResetPasswordActionInterface;
 use App\Entities\ResponseJsend;
 use App\Exceptions\ResetPasswordException;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Traits\PresentResetPasswordTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Throwable;
 
-class ResetPasswordController extends Controller
+final class ResetPasswordController extends Controller
 {
+    use PresentResetPasswordTrait;
+
     public function __construct(
-        private readonly ResetPasswordActionInterface $resetPasswordAction
+        private readonly ResetPasswordActionInterface $resetPasswordAction,
     ) {}
 
-    public function __invoke(ResetPasswordRequest $request): JsonResponse|RedirectResponse
+    public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
         try {
             $validated = $request->validated();
 
             $user = $this->resetPasswordAction->execute((int) $validated['user_id']);
 
-            $result = new ResponseJsend(
-                message: 'Senha resetada com sucesso.',
-                data: [
-                    'user' => [
-                        'id' => $user->getId(),
-                        'name' => $user->getName(),
-                        'email' => $user->getEmail(),
-                    ]
-                ],
-                status: 'success',
+            $data = $this->initializePresentResetPasswordTrait($user);
+
+            $response = new ResponseJsend(
+                message: $this->resetPasswordSuccessMessage(),
+                data: $data,
             );
 
             return response()
-            ->json($result->toArray(), 200);
+            ->json($response->toArray(), 200);
         } catch (ResetPasswordException $e) {
-            $result = new ResponseJsend(
-                data: [],
-                status: 'fail',
+            $response = new ResponseJsend(
+                status: 'error',
                 message: $e->getMessage(),
                 code: $e->getCode(),
             );
 
-            return response()->json($result->toArray(), 400);
+            return response()->json($response->toArray(), 400);
         } catch (Throwable $e) {
-            $result = new ResponseJsend(
-                data: [],
+            $response = new ResponseJsend(
                 status: 'error',
-                message: 'An unexpected error occurred.',
+                message: $e->getMessage(),
+                code: $e->getCode(),
             );
 
-            return response()->json($result->toArray(), 500);
+            return response()
+            ->json($response->toArray(), 500);
         }
     }
 }

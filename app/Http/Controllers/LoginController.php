@@ -5,75 +5,65 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\LoginActionInterface;
+use App\DTO\LoginInputDTO;
 use App\Entities\ResponseJsend;
-use App\Exceptions\LoginException;
+use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\LoginProcessException;
+use App\Exceptions\UserBlockedException;
+use App\Exceptions\UserInactiveException;
 use App\Http\Requests\LoginRequest;
+use App\Traits\PresentLoginTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 final class LoginController extends Controller
 {
+    use PresentLoginTrait;
+
     public function __construct(
         private readonly LoginActionInterface $loginAction,
     ) {}
 
-    public function __invoke(LoginRequest $request): JsonResponse|RedirectResponse
+    public function __invoke(LoginRequest $request): JsonResponse
     {
         try {
-            $this->loginAction->execute($request->validated());
+            $dto = LoginInputDTO::fromArray($request->validated());
 
-            if ($this->shouldReturnJson($request)) {
-                $user = Auth::user();
-                $result = new ResponseJsend([
-                    'redirect_to' => route('dashboard'),
-                    'user' => $user === null ? null : [
-                        'id' => (int) $user->id,
-                        'name' => (string) $user->name,
-                        'email' => (string) $user->email,
-                    ],
-                ]);
+            $auth = $this->loginAction->execute($dto);
 
-                return response()->json($result->toArray(), 200);
-            }
+            $data = $this->initializePresentLoginTrait($auth);
 
-            return redirect()
-                ->intended(route('dashboard'));
-        } catch (LoginException $e) {
-            if ($this->shouldReturnJson($request)) {
-                $result = new ResponseJsend(
-                    status: 'fail',
-                    message: $e->getMessage(),
-                    code: $e->getCode(),
-                );
+            $response = new ResponseJsend($data);
 
-                return response()->json($result->toArray(), 401);
-            }
+            return response()
+            ->json($response->toArray(), 200);
+        } catch (InvalidCredentialsException $e) {
+            $response = new ResponseJsend(
+                status: 'error',
+                message: $e->getMessage(),
+                code: $e->getCode(),
+            );
 
-            return back()
-                ->withErrors(['login' => $e->getMessage()])
-                ->onlyInput('login');
-        } catch (Throwable) {
-            if ($this->shouldReturnJson($request)) {
-                $exception = new LoginException();
-                $result = new ResponseJsend(
-                    status: 'error',
-                    message: $exception->getMessage(),
-                    code: $exception->getCode(),
-                );
+            return response()->json($response->toArray(), 401);
+        } catch (UserInactiveException|UserBlockedException $e) {
+            $response = new ResponseJsend(
+                status: 'error',
+                message: $e->getMessage(),
+                code: $e->getCode(),
+            );
 
-                return response()->json($result->toArray(), 500);
-            }
+            return response()
+            ->json($response->toArray(), 403);
+        } catch (Throwable $e) {
+            $exception = new LoginProcessException(previous: $e);
+            $response = new ResponseJsend(
+                status: 'error',
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
 
-            return back()
-                ->withErrors(['login' => 'Ocorreu um erro inesperado ao fazer login.'])
-                ->onlyInput('login');
+            return response()
+            ->json($response->toArray(), 500);
         }
-    }
-
-    private function shouldReturnJson(LoginRequest $request): bool
-    {
-        return $request->expectsJson() || $request->is('bruno/*');
     }
 }

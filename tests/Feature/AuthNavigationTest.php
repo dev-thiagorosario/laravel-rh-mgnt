@@ -91,6 +91,21 @@ class AuthNavigationTest extends TestCase
         $response->assertSeeText('01/03/2026 10:15');
     }
 
+    public function test_authenticated_user_can_logout(): void
+    {
+        $department = Departament::factory()->create();
+        $user = User::factory()->create([
+            'departament_id' => $department->id,
+        ]);
+
+        $response = $this->actingAs($user)->post(route('logout'));
+
+        $response->assertOk();
+        $response->assertJsonPath('status', 'success');
+        $response->assertJsonPath('data.authenticated', false);
+        $this->assertGuest();
+    }
+
     public function test_admin_sees_all_sidebar_shortcuts_on_dashboard(): void
     {
         $department = Departament::factory()->create(['name' => 'Tecnologia']);

@@ -10,6 +10,7 @@ use App\View\Http\Controller\CreateUserViewController;
 use App\View\Http\Controller\DashboardViewController;
 use App\View\Http\Controller\LoginViewController;
 use App\View\Http\Controller\ProfileViewController;
+use App\View\Http\Controller\WebLoginController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,10 +20,9 @@ Route::get('/', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginViewController::class)->name('login');
-//    Route::post('/login', LoginController::class)->name('login.authenticate');
 });
 
-Route::post('/login', LoginController::class)->name('login.authenticate');
+Route::post('/login', WebLoginController::class)->name('login.authenticate');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardViewController::class)->name('dashboard');

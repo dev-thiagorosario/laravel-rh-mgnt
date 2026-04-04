@@ -6,29 +6,49 @@ namespace App\Http\Controllers;
 
 use App\Actions\LogoutActionInterface;
 use App\Entities\ResponseJsend;
+use App\Exceptions\LogoutException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Throwable;
 
 class LogoutController extends Controller
 {
     public function __construct(
-        private readonly LogoutActionInterface $logoutAction
-    ){}
+        private readonly LogoutActionInterface $logoutAction,
+    ) {}
 
-    public function __invoke():JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         try {
-            $logout = $this->logoutAction->execute();
+            $this->logoutAction->execute();
 
-            $data = [
-                'message' => 'Logout Efetuado com Sucesso!',
-            ];
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-            $result = new ResponseJsend($data, 'success');
+            $response = new ResponseJsend(
+                data: ['authenticated' => false],
+            );
 
             return response()
-                ->json($result->toArray(), 200);
-        }catch (\Throwable $e) {
-            return response()->json(['message' => 'Erro ao efetuar logout'], 500);
+            ->json($response->toArray(), 200);
+        } catch (LogoutException $e) {
+            $response = new ResponseJsend(
+                status: 'error',
+                message: $e->getMessage(),
+                code: $e->getCode(),
+            );
+
+            return response()
+            ->json($response->toArray(), 500);
+        } catch (Throwable $e) {
+            $response = new ResponseJsend(
+                status: 'error',
+                message: $e->getMessage(),
+                code: $e->getCode(),
+            );
+
+            return response()
+            ->json($response->toArray(), 500);
         }
     }
 }
