@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use App\Actions\CreateUserAction;
 use App\Actions\CreateUserActionInterface;
+use App\Actions\ListDepartamentAction;
+use App\Actions\ListDepartamentActionInterface;
 use App\Actions\LoginAction;
 use App\Actions\LoginActionInterface;
 use App\Actions\LogoutAction;
@@ -45,6 +47,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UpdateUserActionInterface::class,
             UpdateUserAction::class
+        );
+
+        $this->app->bind(
+            ListDepartamentActionInterface::class,
+            ListDepartamentAction::class
         );
     }
 
