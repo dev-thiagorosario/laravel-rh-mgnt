@@ -34,7 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
-    Route::get('/departament', WebDepartamentController::class)->name('departament.dashboard');
+    Route::get('/departament', '/departaments')->name('departament.dashboard');
+    Route::get('/departaments', WebDepartamentController::class)->name('departments.index');
+    Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
 });
 
 Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {

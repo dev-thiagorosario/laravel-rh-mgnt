@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\View\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
-class UserBarViewModel extends Model
+
+class UserBarViewModel 
 {
     public function name(): string
     {
