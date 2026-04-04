@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,8 +24,13 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
+        $userId = $this->route('userId') ?? $this->user()?->id;
+
         return [
-            'email' => 'email|unique:users,email,{$this->user->id}',
+            'email' => [
+                'email',
+                Rule::unique('users', 'email')->ignore($userId),
+            ],
             'name' => 'string|min:3|max:255|regex:/^[\\p{L}\' -]+$/u',
         ];
     }
