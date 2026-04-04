@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
-    Route::redirect('/departament', '/departaments')->name('departament.dashboard');
+    Route::get('/departament', '/departaments')->name('departament.dashboard');
     Route::get('/departaments', WebDepartamentController::class)->name('departments.index');
     Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
 });
