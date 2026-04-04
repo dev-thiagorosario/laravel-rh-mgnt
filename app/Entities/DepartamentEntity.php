@@ -11,6 +11,8 @@ class DepartamentEntity
     protected ?int $id = null;
     protected ?string $name = null;
 
+    protected ?string $description = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -33,11 +35,23 @@ class DepartamentEntity
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
     public static function fromModel(Departament $departament): self
     {
         $entity = new self();
         $entity->setId($departament->id);
         $entity->setName($departament->name);
+        $entity->setDescription($departament->description);
 
         return $entity;
     }
@@ -50,6 +64,7 @@ class DepartamentEntity
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'description' => $this->getDescription(),
         ];
     }
 }

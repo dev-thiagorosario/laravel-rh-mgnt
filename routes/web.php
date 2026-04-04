@@ -11,6 +11,8 @@ use App\View\Http\Controller\DashboardViewController;
 use App\View\Http\Controller\LoginViewController;
 use App\View\Http\Controller\ProfileViewController;
 use App\View\Http\Controller\WebLoginController;
+use App\View\Http\Controller\WebDepartamentController;
+use App\Http\Controllers\ListDepartamentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
+    Route::get('/departament', WebDepartamentController::class)->name('departament.dashboard');
 });
 
 Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
@@ -42,5 +45,6 @@ Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
         Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
         Route::post('/logout', LogoutController::class)->name('logout');
         Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
+        Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
     });
 });
