@@ -67,6 +67,11 @@ class AppServiceProvider extends ServiceProvider
             ResolveSidebarMenuActionInterface::class,
             ResolveSidebarMenuAction::class
         );
+
+        $this->app->bind(
+            'App\Actions\CreateDepartmentActionInterface',
+            'App\Actions\CreateDepartmentAction'
+        );
     }
 
     public function boot(): void

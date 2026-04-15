@@ -9,16 +9,15 @@ use App\DTO\CreateUserDTO;
 use App\Entities\ResponseJsend;
 use App\Exceptions\CreateUserException;
 use App\Http\Requests\CreateUserRequest;
-use App\Traits\PresentUserTrait;
+use App\Presenter\UserPresenter;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class CreateUserController extends Controller
 {
-    use PresentUserTrait;
-
     public function __construct(
         private readonly CreateUserActionInterface $createUserAction,
+        private readonly UserPresenter $userPresenter,
     ) {}
 
     public function __invoke(CreateUserRequest $request): JsonResponse
@@ -29,13 +28,13 @@ final class CreateUserController extends Controller
             $user = $this->createUserAction->execute($dto);
 
             $data = [
-                'user' => $this->presentUser($user),
+                'user' => $this->userPresenter->present($user),
             ];
 
             $response = new ResponseJsend($data);
 
             return response()
-            ->json($response->toArray(), 201);
+                ->json($response->toArray(), 201);
         } catch (CreateUserException $e) {
             $response = new ResponseJsend(
                 status: 'error',

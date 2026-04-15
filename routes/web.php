@@ -13,6 +13,7 @@ use App\View\Http\Controller\ProfileViewController;
 use App\View\Http\Controller\WebLoginController;
 use App\View\Http\Controller\WebDepartamentController;
 use App\Http\Controllers\ListDepartamentController;
+use App\Http\Controllers\CreateDepartmentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,5 +49,6 @@ Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
         Route::post('/logout', LogoutController::class)->name('logout');
         Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
         Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
+        Route::post('/api/create/departments', CreateDepartmentController::class)->name('departaments.list');
     });
 });
