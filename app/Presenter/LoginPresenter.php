@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Presenter;
 
 use App\Entities\UserEntity;
 
-trait PresentLoginTrait
+final class LoginPresenter
 {
-    public function initializePresentLoginTrait(UserEntity $auth): array
+    public function present(UserEntity $auth): array
     {
         $user = $auth->toArray();
 

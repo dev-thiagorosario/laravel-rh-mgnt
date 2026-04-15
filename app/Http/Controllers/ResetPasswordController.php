@@ -8,16 +8,15 @@ use App\Actions\ResetPasswordActionInterface;
 use App\Entities\ResponseJsend;
 use App\Exceptions\ResetPasswordException;
 use App\Http\Requests\ResetPasswordRequest;
-use App\Traits\PresentResetPasswordTrait;
+use App\Presenter\ResetPasswordPresenter;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ResetPasswordController extends Controller
 {
-    use PresentResetPasswordTrait;
-
     public function __construct(
         private readonly ResetPasswordActionInterface $resetPasswordAction,
+        private readonly ResetPasswordPresenter $resetPasswordPresenter,
     ) {}
 
     public function __invoke(ResetPasswordRequest $request): JsonResponse
@@ -27,10 +26,10 @@ final class ResetPasswordController extends Controller
 
             $user = $this->resetPasswordAction->execute((int) $validated['user_id']);
 
-            $data = $this->initializePresentResetPasswordTrait($user);
+            $data = $this->resetPasswordPresenter->present($user);
 
             $response = new ResponseJsend(
-                message: $this->resetPasswordSuccessMessage(),
+                message: $this->resetPasswordPresenter->successMessage(),
                 data: $data,
             );
 
