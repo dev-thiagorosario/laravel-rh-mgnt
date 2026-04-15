@@ -14,11 +14,12 @@ class UserTableSeeder extends Seeder
         $departaments = DB::table('departaments')
             ->select(['id', 'name'])
             ->orderBy('id')
+            ->limit(2)
             ->get();
 
-        if ($departaments->isEmpty()) {
+        if ($departaments->count() < 2) {
             throw new \RuntimeException(
-                'Nenhum departament encontrado. Rode o seeder de Departaments antes de UserTableSeeder.'
+                'Pelo menos 2 departaments sao necessarios. Rode o seeder de Departaments antes de UserTableSeeder.'
             );
         }
 
