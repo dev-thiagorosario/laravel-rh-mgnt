@@ -12,16 +12,15 @@ use App\Exceptions\LoginProcessException;
 use App\Exceptions\UserBlockedException;
 use App\Exceptions\UserInactiveException;
 use App\Http\Requests\LoginRequest;
-use App\Traits\PresentLoginTrait;
+use App\Presenter\LoginPresenter;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class LoginController extends Controller
 {
-    use PresentLoginTrait;
-
     public function __construct(
         private readonly LoginActionInterface $loginAction,
+        private readonly LoginPresenter $loginPresenter,
     ) {}
 
     public function __invoke(LoginRequest $request): JsonResponse
@@ -31,7 +30,7 @@ final class LoginController extends Controller
 
             $auth = $this->loginAction->execute($dto);
 
-            $data = $this->initializePresentLoginTrait($auth);
+            $data = $this->loginPresenter->present($auth);
 
             $response = new ResponseJsend($data);
 

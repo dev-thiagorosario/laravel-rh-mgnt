@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Presenter;
 
 use App\Entities\UserEntity;
 
-trait PresentResetPasswordTrait
+final class ResetPasswordPresenter
 {
-    protected function initializePresentResetPasswordTrait(UserEntity $user): array
+    public function present(UserEntity $user): array
     {
         return [
             'user' => [
@@ -19,7 +19,7 @@ trait PresentResetPasswordTrait
         ];
     }
 
-    protected function resetPasswordSuccessMessage(): string
+    public function successMessage(): string
     {
         return 'Senha resetada com sucesso.';
     }
