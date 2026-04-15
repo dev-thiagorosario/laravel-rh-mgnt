@@ -6,10 +6,16 @@ namespace App\Providers;
 
 use App\Actions\CreateUserAction;
 use App\Actions\CreateUserActionInterface;
+use App\Actions\GetAuthenticatedUserViewDataAction;
+use App\Actions\GetAuthenticatedUserViewDataActionInterface;
+use App\Actions\ListDepartamentAction;
+use App\Actions\ListDepartamentActionInterface;
 use App\Actions\LoginAction;
 use App\Actions\LoginActionInterface;
 use App\Actions\LogoutAction;
 use App\Actions\LogoutActionInterface;
+use App\Actions\ResolveSidebarMenuAction;
+use App\Actions\ResolveSidebarMenuActionInterface;
 use App\Actions\ResetPasswordAction;
 use App\Actions\ResetPasswordActionInterface;
 use App\Actions\UpdateUserAction;
@@ -45,6 +51,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UpdateUserActionInterface::class,
             UpdateUserAction::class
+        );
+
+        $this->app->bind(
+            ListDepartamentActionInterface::class,
+            ListDepartamentAction::class
+        );
+
+        $this->app->bind(
+            GetAuthenticatedUserViewDataActionInterface::class,
+            GetAuthenticatedUserViewDataAction::class
+        );
+
+        $this->app->bind(
+            ResolveSidebarMenuActionInterface::class,
+            ResolveSidebarMenuAction::class
         );
     }
 

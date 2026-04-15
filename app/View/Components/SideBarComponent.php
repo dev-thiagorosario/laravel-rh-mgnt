@@ -1,36 +1,32 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace App\View\Components;
 
+use App\Actions\ResolveSidebarMenuActionInterface;
+use App\View\Models\SideBarViewModel;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\View\Models\SideBarViewModel;
 
-class SideBarComponent extends Component
+final class SideBarComponent extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct(
-        private readonly SideBarViewModel $vm,
-    ){}
+    private SideBarViewModel $vm;
 
+    public function __construct(
+        ResolveSidebarMenuActionInterface $resolveSidebarMenuAction,
+    ) {
+        $this->vm = new SideBarViewModel(
+            menuItems: $resolveSidebarMenuAction->execute(),
+        );
+    }
 
     public function menuItems(): array
     {
-        return match ($this->vm->roleUser()) {
-            'admin' => $this->vm->adminMenuItems(),
-            'manager' => $this->vm->managerMenuItems(),
-            default => $this->vm->employeeMenuItems(),
-        };
+        return $this->vm->menuItems();
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
         return view('components.side-bar-component', [

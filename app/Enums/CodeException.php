@@ -6,13 +6,10 @@ namespace App\Enums;
 
 enum CodeException: int
 {
-    case ERROR_ADMIN_VIEW = 1001;
-    case ERROR_LOGIN_VIEW = 1002;
     case ERROR_CREATE_USER = 1003;
     case ERROR_LOGIN = 1004;
     case ERROR_LOGOUT = 1005;
     case ERROR_RESET_PASSWORD = 1006;
-    case ERROR_PROFILE_VIEW = 1007;
     case UPDATE_USER_PROFILE = 1008;
     case ERROR_USER_NOT_FOUND = 1009;
     case ERROR_USER_INACTIVE = 1010;

@@ -4,15 +4,31 @@ declare(strict_types=1);
 
 namespace App\View\Http\Controller;
 
+use App\Actions\ListDepartamentActionInterface;
+use App\Enums\UserPermissionEnum;
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\View\Models\CreateUserViewModel;
 use Illuminate\Contracts\View\View;
-use Throwable;
 
 final class CreateUserViewController extends Controller
 {
+    public function __construct(
+        private readonly ListDepartamentActionInterface $listDepartamentAction,
+    ) {
+    }
+
     public function __invoke(): View
     {
-        return view('users.create');
+        $viewModel = new CreateUserViewModel(
+            departments: $this->listDepartamentAction->list(),
+            roles: UserRoleEnum::options(),
+            permissions: UserPermissionEnum::options(),
+        );
+
+        return view('users.create', [
+            'viewModel' => $viewModel,
+            'submitUrl' => route('users.store'),
+        ]);
     }
 }
