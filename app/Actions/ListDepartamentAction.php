@@ -4,30 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Entities\DepartamentEntity;
 use App\Models\Departament;
 
-class ListDepartamentAction implements ListDepartamentActionInterface
+final class ListDepartamentAction implements ListDepartamentActionInterface
 {
-    /**
-     * @return array{
-     *     departaments: list<array<string, mixed>>
-     * }
-     */
     public function list(): array
     {
-        $departaments = Departament::query()
+        return Departament::query()
+            ->select(['id', 'name'])
             ->orderBy('name')
             ->get()
-            ->map(
-                static fn (Departament $departament): array 
-                => DepartamentEntity::fromModel($departament)->toArray()
-            )
-            ->values()
+            ->map(static fn (Departament $department): array => [
+                'id' => $department->id,
+                'name' => $department->name,
+            ])
             ->all();
-
-        return [
-            'departaments' => $departaments,
-        ];
     }
 }
