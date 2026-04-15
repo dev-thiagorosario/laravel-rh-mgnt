@@ -16,4 +16,6 @@ enum CodeException: int
     case ERROR_USER_BLOCKED = 1011;
     case ERROR_LOGIN_PROCESS = 1012;
     case ERROR_LIST_DEPARTAMENT = 2001;
+
+    case ERROR_CREATE_DEPARTAMENT = 2002;
 }

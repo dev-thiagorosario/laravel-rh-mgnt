@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Presenter;
 
 use App\Entities\UserEntity;
 
-trait PresentUserTrait
+final class UserPresenter
 {
-    protected function presentUser(UserEntity $user): array
+    public function present(UserEntity $user): array
     {
         $data = $user->toArray();
 

@@ -6,7 +6,7 @@ namespace App\Actions;
 
 use App\Models\Departament;
 
-final class ListDepartamentAction implements ListDepartamentActionInterface
+final class ListDepartmentAction implements ListDepartmentActionInterface
 {
     public function list(): array
     {

@@ -7,7 +7,7 @@ namespace App\Exceptions;
 use App\Enums\CodeException;
 use Throwable;
 
-class ListDepartamentException extends \RuntimeException
+class ListDepartmentException extends \RuntimeException
 {
     public function __construct(
         string $message = 'Erro ao listar departamentos.',
