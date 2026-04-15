@@ -47,7 +47,7 @@ final class ResolveSidebarMenuAction implements ResolveSidebarMenuActionInterfac
 
         return [
             'title' => $title,
-            'route' => $isAvailable ? route($routeName) : '#',
+            'route' => $isAvailable ? route($routeName, absolute: false) : '#',
             'icon' => $icon,
             'is_available' => $isAvailable,
         ];
