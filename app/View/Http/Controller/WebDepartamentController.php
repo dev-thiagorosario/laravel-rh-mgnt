@@ -5,55 +5,47 @@ declare(strict_types=1);
 namespace App\View\Http\Controller;
 
 use App\Http\Controllers\Controller;
+use App\View\Http\BackendApiClient;
 use App\View\Models\DepartamentListViewModel;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Throwable;
 
 final class WebDepartamentController extends Controller
 {
     public function __construct(
-        private readonly Router $router,
+        private readonly BackendApiClient $backendApiClient,
     ) {
     }
 
     public function __invoke(Request $request): View
     {
+        $viewModel = $this->departamentListViewModel($request);
+
         return view('departament.departaments', [
-            'departamentListVm' => $this->departamentListViewModel($request),
+            'viewModel' => $viewModel,
         ]);
     }
 
     private function departamentListViewModel(Request $request): DepartamentListViewModel
     {
         try {
-            $response = $this->router->dispatch(
-                $this->departamentListRequest($request)
-            );
+            $response = $this->backendApiClient->get($request, 'departaments.list');
 
-            if (! $response instanceof JsonResponse) {
+            if (! $response->successful()) {
                 return new DepartamentListViewModel(
-                    errorMessage: 'Resposta invalida ao listar departamentos.'
+                    errorMessage: $this->backendApiClient->errorMessage(
+                        $response,
+                        'Nao foi possivel carregar os departamentos.',
+                    ),
                 );
             }
 
-            $payload = $response->getData(true);
-
-            if ($response->getStatusCode() !== 200) {
-                return new DepartamentListViewModel(
-                    errorMessage: is_string($payload['message'] ?? null)
-                        ? $payload['message']
-                        : 'Nao foi possivel carregar os departamentos.'
-                );
-            }
+            $departaments = $response->json('data');
 
             return new DepartamentListViewModel(
-                departaments: is_array($payload['data']['departaments'] ?? null)
-                    ? $payload['data']['departaments']
-                    : [],
-                errorMessage: is_array($payload['data']['departaments'] ?? null)
+                departaments: is_array($departaments) ? $departaments : [],
+                errorMessage: is_array($departaments)
                     ? null
                     : 'Resposta invalida ao listar departamentos.',
             );
@@ -62,26 +54,5 @@ final class WebDepartamentController extends Controller
                 errorMessage: 'Nao foi possivel carregar os departamentos.'
             );
         }
-    }
-
-    private function departamentListRequest(Request $request): Request
-    {
-        $apiRequest = Request::create(
-            uri: route('departaments.list', absolute: false),
-            method: 'GET',
-            cookies: $request->cookies->all(),
-            server: array_merge($request->server->all(), [
-                'HTTP_ACCEPT' => 'application/json',
-                'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
-            ]),
-        );
-
-        if ($request->hasSession()) {
-            $apiRequest->setLaravelSession($request->session());
-        }
-
-        $apiRequest->setUserResolver($request->getUserResolver());
-
-        return $apiRequest;
     }
 }
