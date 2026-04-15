@@ -23,7 +23,7 @@
                                         </div>
                                     @endif
 
-                                    <form action="{{ route('login.authenticate') }}" method="POST" class="login-form">
+                                    <form action="{{ $viewModel->submitUrl() }}" method="POST" class="login-form">
                                         @csrf
 
                                         <div class="mb-3">
