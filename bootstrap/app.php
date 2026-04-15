@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\PropagateBackendCookies;
 use App\Http\Middleware\WithoutCSRF;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,9 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(replace: [
-            ValidateCsrfToken::class => WithoutCSRF::class,
-        ]);
+        $middleware->web(
+            prepend: [
+                PropagateBackendCookies::class,
+            ],
+            replace: [
+                ValidateCsrfToken::class => WithoutCSRF::class,
+            ],
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
