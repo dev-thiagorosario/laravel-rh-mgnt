@@ -12,7 +12,7 @@ use App\View\Http\Controller\LoginViewController;
 use App\View\Http\Controller\ProfileViewController;
 use App\View\Http\Controller\WebLoginController;
 use App\View\Http\Controller\WebDepartamentController;
-use App\Http\Controllers\ListDepartamentController;
+use App\Http\Controllers\ListDepartmentController;
 use App\Http\Controllers\CreateDepartmentController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
     Route::get('/departament', '/departaments')->name('departament.dashboard');
     Route::get('/departaments', WebDepartamentController::class)->name('departments.index');
-    Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
+    Route::get('/api/departaments', ListDepartmentController::class)->name('departaments.list');
 });
 
 Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
@@ -48,7 +48,7 @@ Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
         Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
         Route::post('/logout', LogoutController::class)->name('logout');
         Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
-        Route::get('/api/departaments', ListDepartamentController::class)->name('departaments.list');
-        Route::post('/api/create/departments', CreateDepartmentController::class)->name('departaments.list');
+        Route::get('/api/departaments', ListDepartmentController::class)->name('departaments.list');
+        Route::post('/api/create/departments', CreateDepartmentController::class)->name('departaments.create');
     });
 });

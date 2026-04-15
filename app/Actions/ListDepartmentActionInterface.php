@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-interface ListDepartamentActionInterface
+interface ListDepartmentActionInterface
 {
     public function list(): array;
 }

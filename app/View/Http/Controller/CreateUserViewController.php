@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Http\Controller;
 
-use App\Actions\ListDepartamentActionInterface;
+use App\Actions\ListDepartmentActionInterface;
 use App\Enums\UserPermissionEnum;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use Illuminate\Contracts\View\View;
 final class CreateUserViewController extends Controller
 {
     public function __construct(
-        private readonly ListDepartamentActionInterface $listDepartamentAction,
+        private readonly ListDepartmentActionInterface $listDepartamentAction,
     ) {
     }
 

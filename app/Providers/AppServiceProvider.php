@@ -8,8 +8,8 @@ use App\Actions\CreateUserAction;
 use App\Actions\CreateUserActionInterface;
 use App\Actions\GetAuthenticatedUserViewDataAction;
 use App\Actions\GetAuthenticatedUserViewDataActionInterface;
-use App\Actions\ListDepartamentAction;
-use App\Actions\ListDepartamentActionInterface;
+use App\Actions\ListDepartmentAction;
+use App\Actions\ListDepartmentActionInterface;
 use App\Actions\LoginAction;
 use App\Actions\LoginActionInterface;
 use App\Actions\LogoutAction;
@@ -54,8 +54,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ListDepartamentActionInterface::class,
-            ListDepartamentAction::class
+            ListDepartmentActionInterface::class,
+            ListDepartmentAction::class
         );
 
         $this->app->bind(

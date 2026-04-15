@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\ListDepartamentActionInterface;
+use App\Actions\ListDepartmentActionInterface;
 use App\Entities\ResponseJsend;
-use App\Exceptions\ListDepartamentException;
+use App\Exceptions\ListDepartmentException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-final class ListDepartamentController extends Controller
+final class ListDepartmentController extends Controller
 {
     public function __construct(
-        private readonly ListDepartamentActionInterface $listDepartamentAction,
+        private readonly ListDepartmentActionInterface $listDepartamentAction,
     ) {}
 
     public function __invoke(): JsonResponse
@@ -27,7 +27,7 @@ final class ListDepartamentController extends Controller
 
             return response()
                 ->json($response->toArray(), 200);
-        } catch (ListDepartamentException $e) {
+        } catch (ListDepartmentException $e) {
             $response = new ResponseJsend(
                 status: 'error',
                 message: $e->getMessage(),
