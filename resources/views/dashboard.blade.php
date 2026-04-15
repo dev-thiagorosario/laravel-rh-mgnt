@@ -8,12 +8,12 @@
             </p>
 
             <div class="d-flex flex-wrap gap-3">
-                <a href="{{ route('user.profile') }}" class="btn btn-primary">
+                <a href="{{ $viewModel->profileUrl() }}" class="btn btn-primary">
                     Ver meu perfil
                 </a>
 
-                @if(auth()->user()?->role !== 'employee' && \Illuminate\Support\Facades\Route::has('users.create'))
-                    <a href="{{ route('users.create') }}" class="btn btn-outline-secondary">
+                @if($viewModel->canCreateUser())
+                    <a href="{{ $viewModel->createUserUrl() }}" class="btn btn-outline-secondary">
                         Adicionar colaborador
                     </a>
                 @endif

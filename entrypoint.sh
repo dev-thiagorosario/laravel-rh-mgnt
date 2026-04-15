@@ -14,6 +14,9 @@ if [ -f composer.json ] && [ ! -d vendor ]; then
 fi
 
 if [ -f artisan ]; then
+  if ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
+    php artisan key:generate --force --no-interaction
+  fi
   php artisan storage:link >/dev/null 2>&1 || true
 fi
 

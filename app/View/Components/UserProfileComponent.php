@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
-use App\View\Models\UserProfileViewModel;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -20,17 +19,18 @@ final class UserProfileComponent extends Component
 
     public readonly string $createdAt;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(
-        UserProfileViewModel $vm
+        string $userName,
+        string $userEmail,
+        string $userRole,
+        string $userDepartment,
+        string $createdAt,
     ) {
-        $this->userName = $vm->userName();
-        $this->userEmail = $vm->userEmail();
-        $this->userRole = $vm->userRole();
-        $this->userDepartment = $vm->userDepartment();
-        $this->createdAt = $vm->createdAt();
+        $this->userName = $userName;
+        $this->userEmail = $userEmail;
+        $this->userRole = $userRole;
+        $this->userDepartment = $userDepartment;
+        $this->createdAt = $createdAt;
     }
 
     public function render(): View
