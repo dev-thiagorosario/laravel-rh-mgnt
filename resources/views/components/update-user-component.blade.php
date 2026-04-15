@@ -1,3 +1,5 @@
+@php($formAction = $submitUrl !== '#' ? $submitUrl : route('users.update'))
+
 <div
     class="modal fade update-user-modal"
     id="{{ $modalId }}"
@@ -20,12 +22,9 @@
                 <button type="button" class="btn-close update-user-modal__close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
 
-            <form action="{{ $submitUrl }}" method="POST" class="update-user-modal__form" novalidate>
+            <form action="{{ $formAction }}" method="POST" class="update-user-modal__form" novalidate>
                 @csrf
-
-                @if ($canSubmit)
-                    @method('PUT')
-                @endif
+                @method('PUT')
 
                 <div class="modal-body update-user-modal__body">
                     <div class="update-user-modal__grid">
@@ -135,7 +134,7 @@
                         <button type="button" class="btn update-user-modal__cancel" data-bs-dismiss="modal">
                             Cancelar
                         </button>
-                        <button type="submit" class="btn update-user-modal__submit" @disabled(! $canSubmit)>
+                        <button type="submit" class="btn update-user-modal__submit">
                             Salvar alterações
                         </button>
                     </div>

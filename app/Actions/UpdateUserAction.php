@@ -19,6 +19,6 @@ class UpdateUserAction implements UpdateUserActionInterface
             throw new UserNotFoundException();
         }
 
-            $user->update($data);
+        $user->update($data);
     }
 }

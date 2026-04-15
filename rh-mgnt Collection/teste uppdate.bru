@@ -1,11 +1,11 @@
 meta {
-  name: ResetPasswordUser
+  name: TesteUpdate
   type: http
-  seq: 3
+  seq: 4
 }
 
-post {
-  url: http://localhost:8080/bruno/reset-password/2
+put {
+  url: http://localhost:8080/bruno/api/users/2
   body: json
   auth: inherit
 }
@@ -17,7 +17,8 @@ headers {
 
 body:json {
   {
-    "user_id": 2
+    "name": "Usuario Teste Bruno",
+    "email": "usuario.teste@example.com"
   }
 }
 
