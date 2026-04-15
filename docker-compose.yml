@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    environment:
+      BACKEND_URL: http://nginx
+      DB_HOST: db
     volumes:
       - .:/var/www/html
     depends_on:

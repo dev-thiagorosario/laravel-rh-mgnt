@@ -167,14 +167,24 @@ composer install
 cp .env.example .env
 php artisan key:generate
 
+# If the app runs in Docker, the browser accesses the project through:
+# APP_URL=http://localhost:8080
+# BACKEND_URL=http://localhost:8080
+#
+# Inside the `app` container the backend is overridden to `http://nginx`
+# by docker-compose, so the frontend controllers/components can consume
+# the backend routes without pointing to localhost from inside the container.
+
 # Configure database in .env
-# Example:
+# If you run `php artisan` on your machine, use:
 # DB_CONNECTION=pgsql
-# DB_HOST=db
+# DB_HOST=127.0.0.1
 # DB_PORT=5432
 # DB_DATABASE=laravel_rh_mgnt
-# DB_USERNAME=postgres
-# DB_PASSWORD=postgres
+# DB_USERNAME=laravel
+# DB_PASSWORD=laravel
+#
+# If you run Artisan inside the `app` container, `DB_HOST=db` also works.
 
 # Migrate + seed
 php artisan migrate --seed
