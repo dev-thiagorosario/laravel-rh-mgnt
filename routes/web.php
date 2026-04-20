@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthenticatedUserViewDataController;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\SidebarMenuController;
 use App\Http\Controllers\UpdateUserController;
 use App\Http\Middleware\WithoutCSRF;
 use App\View\Http\Controller\CreateUserViewController;
@@ -30,20 +32,25 @@ Route::post('/login', WebLoginController::class)->name('login.authenticate');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardViewController::class)->name('dashboard');
     Route::get('/users/create', CreateUserViewController::class)->name('users.create');
+    Route::get('/api/me', AuthenticatedUserViewDataController::class)->name('authenticated-user.view-data');
+    Route::get('/api/sidebar-menu', SidebarMenuController::class)->name('sidebar.menu');
     Route::post('/api/users', CreateUserController::class)->name('users.store');
     Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
     Route::get('/user-profile', ProfileViewController::class)->name('user.profile');
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::put('/api/users/{userId?}', UpdateUserController::class)->name('users.update');
-    Route::get('/departament', '/departaments')->name('departament.dashboard');
+    Route::redirect('/departament', '/departaments')->name('departament.dashboard');
     Route::get('/departaments', WebDepartamentController::class)->name('departments.index');
     Route::get('/api/departaments', ListDepartmentController::class)->name('departaments.list');
+    Route::post('/api/create/departments', CreateDepartmentController::class)->name('departaments.create');
 });
 
 Route::prefix(WithoutCSRF::PREFIX)->name('bruno.')->group(function () {
     Route::post('/login', LoginController::class)->name('login.authenticate');
 
     Route::middleware('auth')->group(function () {
+        Route::get('/api/me', AuthenticatedUserViewDataController::class)->name('authenticated-user.view-data');
+        Route::get('/api/sidebar-menu', SidebarMenuController::class)->name('sidebar.menu');
         Route::post('/api/users', CreateUserController::class)->name('users.store');
         Route::post('reset-password', ResetPasswordController::class)->name('password.reset');
         Route::post('/logout', LogoutController::class)->name('logout');

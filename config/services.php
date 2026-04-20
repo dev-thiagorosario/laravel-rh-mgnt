@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'backend' => [
+        'url' => env('BACKEND_URL', env('APP_URL', 'http://localhost')),
+    ],
+
 ];

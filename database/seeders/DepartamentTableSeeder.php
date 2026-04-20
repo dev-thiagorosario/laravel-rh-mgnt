@@ -12,9 +12,6 @@ class DepartamentTableSeeder extends Seeder
         $departaments = [
             'Recursos Humanos',
             'Financeiro',
-            'Tecnologia',
-            'Comercial',
-            'Operacoes',
         ];
 
         foreach ($departaments as $name) {

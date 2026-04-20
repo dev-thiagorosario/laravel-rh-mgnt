@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\View\Http\Controller;
 
-use App\Actions\ListDepartmentActionInterface;
 use App\Enums\UserPermissionEnum;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
+use App\View\Http\BackendApiClient;
 use App\View\Models\CreateUserViewModel;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Throwable;
 
 final class CreateUserViewController extends Controller
 {
     public function __construct(
-        private readonly ListDepartmentActionInterface $listDepartamentAction,
+        private readonly BackendApiClient $backendApiClient,
     ) {
     }
 
-    public function __invoke(): View
+    public function __invoke(Request $request): View
     {
         $viewModel = new CreateUserViewModel(
-            departments: $this->listDepartamentAction->list(),
+            departments: $this->departments($request),
             roles: UserRoleEnum::options(),
             permissions: UserPermissionEnum::options(),
         );
@@ -30,5 +32,19 @@ final class CreateUserViewController extends Controller
             'viewModel' => $viewModel,
             'submitUrl' => route('users.store'),
         ]);
+    }
+
+    private function departments(Request $request): array
+    {
+        try {
+            $response = $this->backendApiClient->get($request, 'departaments.list');
+            $departments = $response->json('data');
+
+            return $response->successful() && is_array($departments)
+                ? $departments
+                : [];
+        } catch (Throwable) {
+            return [];
+        }
     }
 }

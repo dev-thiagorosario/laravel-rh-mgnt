@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
-use App\Actions\GetAuthenticatedUserViewDataActionInterface;
+use App\View\Http\BackendApiClient;
 use App\View\Models\UserBarViewModel;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
+use Throwable;
 
 final class UserBarComponent extends Component
 {
@@ -16,9 +18,10 @@ final class UserBarComponent extends Component
     public string $department;
 
     public function __construct(
-        GetAuthenticatedUserViewDataActionInterface $getAuthenticatedUserViewDataAction,
+        Request $request,
+        BackendApiClient $backendApiClient,
     ) {
-        $userData = $getAuthenticatedUserViewDataAction->execute();
+        $userData = $this->authenticatedUserData($request, $backendApiClient);
         $vm = new UserBarViewModel(
             name: $userData['name'],
             department: $userData['department'],
@@ -31,5 +34,23 @@ final class UserBarComponent extends Component
     public function render(): View|Closure|string
     {
         return view('components.user-bar-component');
+    }
+
+    private function authenticatedUserData(Request $request, BackendApiClient $backendApiClient): array
+    {
+        try {
+            $response = $backendApiClient->get($request, 'authenticated-user.view-data');
+            $data = $response->json('data');
+
+            if ($response->successful() && is_array($data)) {
+                return $data;
+            }
+        } catch (Throwable) {
+        }
+
+        return [
+            'name' => 'Usuario',
+            'department' => 'Sem departamento',
+        ];
     }
 }
